@@ -14,6 +14,11 @@ class UrlRepository {
         const query = `SELECT id, short_url AS shortUrl, url FROM urls WHERE id=$1`;
         return this.db.query(query, [id]);
     }
+
+    getUrlByShortUrl(shortUrl) {
+        const query = `SELECT url FROM urls WHERE short_url=$1`;
+        return this.db.query(query, [shortUrl]);
+    }
 }
 
 export default new UrlRepository;

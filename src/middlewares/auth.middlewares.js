@@ -38,16 +38,7 @@ export const AuthMiddleware = (req, res, next) => {
 };
 
 export const validSignUp = async (req, res, next) => {
-    const { name, email, password, confirmPassword } = sanitizeObjects(req.body);
-
-    const { error } = SignUpSchema.validate({
-        name, email, password, confirmPassword
-    });
-
-    if (error) {
-        const errors = error.details.map(err => err.message);
-        return res.status(422).json(errors);
-    }
+    const { name, email, password } = sanitizeObjects(req.body);
 
     try {
         const { rows } = await AuthRepository.login(email);
@@ -66,15 +57,6 @@ export const validSignUp = async (req, res, next) => {
 
 export const validSignIn = async (req, res, next) => {
     const { email, password } = sanitizeObjects(req.body);
-
-    const { error } = SignInSchema.validate({
-        email, password
-    });
-
-    if (error) {
-        const errors = error.details.map(err => err.message);
-        return res.status(422).json(errors);
-    }
 
     try {
         const { rows } = await AuthRepository.login(email);

@@ -34,7 +34,25 @@ const getUrlById = async (req, res) => {
     }
 };
 
+const redirectToLink = async (req, res) => {
+    const { shortUrl } = req.params;
+
+    try {
+        const { rows } = await UrlRepository.getUrlByShortUrl(shortUrl);
+      
+        if (!rows.length) {
+            return res.status(404).json({ message: "Url inexistente" });
+        }
+
+        res.redirect(rows[0].url);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+
+};
+
 export default {
     postUrl,
-    getUrlById
+    getUrlById,
+    redirectToLink
 };
