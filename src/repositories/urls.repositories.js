@@ -6,8 +6,13 @@ class UrlRepository {
     }
 
     postUrl(url, shortUrl, idUsuario) {
-        const query = `INSERT INTO urls (url, short_url, id_usuario) VALUES ($1, $2, $3)`;
+        const query = `INSERT INTO urls (url, short_url, id_usuario) VALUES ($1, $2, $3) RETURNING id`;
         return this.db.query(query, [url, shortUrl, idUsuario]);
+    }
+
+    getUrlById(id) {
+        const query = `SELECT id, short_url AS shortUrl, url FROM urls WHERE id=$1`;
+        return this.db.query(query, [id]);
     }
 }
 
