@@ -2,8 +2,8 @@ import { Router } from "express";
 import AuthController from "../controllers/auth.controller.js";
 import { validSignUp } from "../middlewares/auth.middlewares.js";
 
-const AuthRouter = Router()
+const SignUpRouter = Router();
 
-AuthRouter.post('/', validSignUp, AuthController.signUp)
+SignUpRouter.post('/', validSignUp, AuthController.signUp);
 
-export default AuthRouter
+export default SignUpRouter;

@@ -8,7 +8,7 @@ class AuthRepository {
     }
 
     login(email) {
-        const query = "SELECT email, password FROM users WHERE email=$1";
+        const query = "SELECT id, email, password FROM users WHERE email=$1";
         return db.query(query, [email]);
     }
 
@@ -18,8 +18,8 @@ class AuthRepository {
         return db.query(query, [name, email, password]);
     }
 
-    generateToken(id) {
-        return jwt.sign({ id }, process.env.SECRET_KEY, { expiresIn: 864000 });
+    generateToken(payload) {
+        return jwt.sign(payload, process.env.SECRET_KEY, { expiresIn: 864000 });
     }
 }
 

@@ -1,6 +1,6 @@
 import Joi from "joi";
 
-const SignUpSchema = Joi.object({
+export const SignUpSchema = Joi.object({
     name: Joi.string().required().trim(),
     email: Joi.string().email().required(),
     password: Joi.string().required(),
@@ -9,4 +9,7 @@ const SignUpSchema = Joi.object({
     }),
 });
 
-export default SignUpSchema;
+export const SignInSchema = Joi.object({
+    email: Joi.string().email().required(),
+    password: Joi.string().required(),
+});

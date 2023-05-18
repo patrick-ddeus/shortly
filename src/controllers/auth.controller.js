@@ -9,8 +9,27 @@ const signUp = async (req, res) => {
 
     try {
         await AuthRepository.register({ name, email, password: hash });
-        
-        res.sendStatus(201);
+
+        res.sendStatus(200);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+
+};
+
+const signIn = async (req, res) => {
+    const { id, email, password, hashedPassword } = req.user;
+
+    try {
+        const isValidPassword = bcrypt.compareSync(password, hashedPassword);
+
+        if (!isValidPassword) {
+            return res.status(401).json({ message: "Email ou senha inválidos!" });
+        }
+
+        const token = await AuthRepository.generateToken({ id, email, password });
+
+        res.status(200).json({ token });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
@@ -18,5 +37,6 @@ const signUp = async (req, res) => {
 };
 
 export default {
-    signUp
+    signUp,
+    signIn
 };
