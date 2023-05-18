@@ -29,14 +29,12 @@ export const AuthMiddleware = (req, res, next) => {
                 return res.status(401).json({ message: " Campo authorization inválido" });
             }
 
-            req.id = decode.id;
+            req.locals = { id: decode.id };
             return next();
-
         });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
-
 };
 
 export const validSignUp = async (req, res, next) => {
