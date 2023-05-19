@@ -12,4 +12,5 @@ IndexRouter.use('/signin', SignInRouter);
 IndexRouter.use('/urls', UrlRouter);
 IndexRouter.use('/users', UserRouter);
 IndexRouter.use('/ranking', UrlController.ranking);
+
 export default IndexRouter;

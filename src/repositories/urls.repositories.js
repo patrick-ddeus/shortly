@@ -29,13 +29,13 @@ class UrlRepository {
         const query = `SELECT
         u.id,
         u.name,
-        SUM(ur.visit_count) AS visitCount,
+        SUM(ur.visit_count) AS "visitCount",
         json_agg(json_build_object(
           'id', ur.id,
           'shortUrl', ur.short_url,
           'url', ur.url,
           'visitCount', ur.visit_count
-        ) ORDER BY ur.id) AS shortenedUrls
+        ) ORDER BY ur.id) AS "shortenedUrls"
       FROM users u
        LEFT JOIN urls ur ON u.id = ur.id_usuario
        WHERE u.id=$1
