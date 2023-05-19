@@ -21,6 +21,10 @@ const postUrl = async (req, res) => {
 const getUrlById = async (req, res) => {
     const { id } = req.params;
 
+    if (isNaN(id)) {
+        return res.status(404).json({ error: 'O parâmetro deve ser um número' });
+    }
+
     try {
         const { rows } = await UrlRepository.getUrlById(id);
 
@@ -39,20 +43,43 @@ const redirectToLink = async (req, res) => {
 
     try {
         const { rows } = await UrlRepository.getUrlByShortUrl(shortUrl);
-      
+
         if (!rows.length) {
             return res.status(404).json({ message: "Url inexistente" });
         }
 
+        await UrlRepository.updateUrl(shortUrl);
         res.redirect(rows[0].url);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
+};
 
+const deleteById = async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const { rows } = await UrlRepository.deleteById(id);
+
+        res.status(204).json(rows[0]);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+const ranking = async (req, res) => {
+    try {
+        const { rows } = await UrlRepository.ranking();
+        res.status(200).json(rows);
+    } catch (error) {
+        return res.status(500).json({ error: error.message });
+    }
 };
 
 export default {
     postUrl,
     getUrlById,
-    redirectToLink
+    redirectToLink,
+    deleteById,
+    ranking
 };
